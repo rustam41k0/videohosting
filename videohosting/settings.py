@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-from django.contrib.auth.models import AbstractUser
 from pathlib import Path
 import os
 
@@ -49,9 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'authapp.apps.AuthappConfig',
+    'mainapp.apps.MainappConfig',
     'storages',
-    'authapp',
-    'mainapp',
 ]
 
 MIDDLEWARE = [
@@ -69,8 +68,7 @@ ROOT_URLCONF = 'videohosting.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,7 +92,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'videohosting_db',
+        'HOST': 'db',
         'PORT': '5432'
     }
 }
@@ -140,8 +138,4 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Users
-
 AUTH_USER_MODEL = 'authapp.User'
-
-# s3cloud

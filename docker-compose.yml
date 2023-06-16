@@ -15,13 +15,13 @@ services:
       - .env
   web:
     build: .
-    command: sh -c "python3 /usr/src/proj/manage.py makemigrations && 
-                    python3 /usr/src/proj/manage.py migrate && 
-                    python3 /usr/src/proj/manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python /usr/src/videohosting/manage.py makemigrations && 
+                    python /usr/src/videohosting/manage.py migrate && 
+                    python /usr/src/videohosting/manage.py runserver 0.0.0.0:8080"
     volumes:
-      - .:/usr/src/
+      - .:/usr/src/videohosting
     ports:
-      - "8000:8000"
+      - "8080:8080"
     depends_on:
       - db
 volumes:

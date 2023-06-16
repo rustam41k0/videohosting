@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.views import View
 
 from authapp.models import User
+from mainapp.forms import CommentForm, UploadVideoForm
 from mainapp.models import Video, Comment
 
 
@@ -28,7 +29,7 @@ class VideoView(View):
             'like': request.user in video.likes.all(),
             'dislike': request.user in video.dislikes.all()
         }
-        return render(request, 'view.html', context)
+        return render(request, 'video_page.html', context)
 
 
 class AddComment(VideoView):
@@ -60,7 +61,7 @@ def upload(request):
     else:
         form = UploadVideoForm()
     context = {'form': form}
-    return render(request, 'upload.html', context)
+    return render(request, 'upload_video.html', context)
 
 
 @login_required(login_url='/users/login')

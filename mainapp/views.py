@@ -8,8 +8,10 @@ from mainapp.forms import CommentForm, UploadVideoForm
 from mainapp.models import Video, Comment
 
 
-def index(request):
+@login_required(login_url='/users/login')
+def main_page(request):
     context = {
+        'user': [User],
         'videos': Video.objects.all().order_by("-id")
     }
     return render(request, 'main.html', context)
@@ -23,7 +25,7 @@ class VideoView(View):
             video.viewed.add(user)
         context = {
             'user': [User],
-            'usernames': ['kar', 'unclear legacy', 'lender', 'cyreh', 'cyreh', 'cyreh', 'cyreh', 'cyreh'],
+            # 'usernames': ['kar', 'unclear legacy', 'lender', 'cyreh', 'cyreh', 'cyreh', 'cyreh', 'cyreh'],
             'video': video,
             'comments': Comment.objects.filter(video=video).order_by("-id"),
             'like': request.user in video.likes.all(),

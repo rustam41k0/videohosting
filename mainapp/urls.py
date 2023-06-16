@@ -3,8 +3,10 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 
+from .views import main_page, VideoView, upload, like, dislike, AddComment
+
 urlpatterns = [
-    path('', index, name='home'),
+    path('', main_page, name='home'),
     path('view/<int:pk>/', VideoView.as_view(), name='view'),
     path('upload/', upload, name='upload'),
     path('view/<int:pk>/like', like, name='like'),

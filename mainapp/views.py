@@ -9,41 +9,6 @@ from mainapp.models import Video, Comment
 
 
 @login_required(login_url='/auth/login')
-def main_page(request):
-    context = {
-        'user': [User],
-        'videos': Video.objects.all().order_by("-id")
-    }
-    return render(request, 'main.html', context)
-
-
-class VideoView(View):
-    def get(self, request, pk):
-        video = Video.objects.get(id=pk)
-        user = request.user
-        context = {
-            'user': [User],
-            # 'usernames': ['kar', 'unclear legacy', 'lender', 'cyreh', 'cyreh', 'cyreh', 'cyreh', 'cyreh'],
-            'video': video,
-            'comments': Comment.objects.filter(video=video).order_by("-id"),
-            'like': request.user in video.likes.all(),
-            'dislike': request.user in video.dislikes.all()
-        }
-        return render(request, 'video_page.html', context)
-
-
-class AddComment(VideoView):
-    def post(self, request, pk):
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.username = request.user
-            form.video_id = pk
-            form.save()
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-@login_required(login_url='/auth/login')
 def upload(request):
     if request.method == 'POST':
         form = UploadVideoForm(request.POST, request.FILES)
@@ -56,12 +21,39 @@ def upload(request):
                           )
 
             video.save()
-            # messages.success(request, 'Вы успешно загрузили видео')
             return HttpResponseRedirect('/')
     else:
         form = UploadVideoForm()
-    context = {'form': form}
-    return render(request, 'upload_video.html', context)
+    return render(request, 'upload_video.html', {'form': form})
+
+
+@login_required(login_url='/auth/login')
+def main_page(request):
+    return render(request, 'main.html', context={
+        'videos': Video.objects.all().order_by("-id"),
+        'user': request.user,
+    })
+
+
+class VideoView(View):
+    def get(self, request, pk):
+        video = Video.objects.get(id=pk)
+        return render(request, 'video_page.html', context={
+            'user': request.user,
+            'comments': Comment.objects.filter(video=video).order_by("-id"),
+            'video': video,
+            'dislike': request.user in video.dislikes.all(),
+            'like': request.user in video.likes.all(),
+        })
+
+    def post(self, request, pk):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.author = request.user
+            form.video_id = pk
+            form.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='/auth/login')

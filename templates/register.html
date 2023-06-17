@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-{% load  static %}
 
 {% block content %}
-    <form action="{% url 'register' %}" method="post" class="content__auth">
+    <form action="{% url 'register' %}" method="post">
         <h2>Регистрация</h2>
         {% csrf_token %}
         {{ form.email }}<br>
@@ -10,7 +9,7 @@
         {{ form.password1 }}<br>
         {{ form.password2 }}<br>
         <errors>{{ form.errors }}</errors>
-        <button class="content__auth-btn" type="submit">Создать аккаунт</button>
+        <button type="submit">Создать аккаунт</button>
         <a href='{% url 'login' %}'><p>Есть аккаунт? <span>Войти</span></p></a>
     </form>
 {% endblock %}

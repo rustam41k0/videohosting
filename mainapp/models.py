@@ -17,7 +17,7 @@ class Video(models.Model):
     dislikes = models.ManyToManyField(User, related_name="dislikes", blank=True)
 
     def get_absolute_url(self):
-        return reverse('view', kwargs={'pk': self.id})
+        return reverse('video', kwargs={'pk': self.id})
 
     def __str__(self):
         return self.title

@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form action="{% url 'upload' %}" method="post" class="content__auth" enctype="multipart/form-data">
-        <h2>Загрузка видео</h2>
+    <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+        <h2 style="margin: 12px 0 12px 0">Опубликуйте свое видео:</h2>
         {% csrf_token %}
-        {{ form.title }}
-        {{ form.description }}
-        <h1>Превью</h1>{{ form.preview }}
-        <h1>Видео</h1>{{ form.video }}
-        <errors>{{ form.errors }}</errors>
-        <button class="content__auth-btn" type="submit">Загрузить</button>
+        {{ form.title }}<br><br>
+        {{ form.description }}<br><br>
+        <h3>Превью</h3>{{ form.preview }}<br><br>
+        <h3>Видеофайл</h3>{{ form.video }}
+        <errors>{{ form.errors }}</errors><br><br>
+        <button class="btn btn-success" type="submit">Загрузить</button>
     </form>
 {% endblock %}

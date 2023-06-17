@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 
-{% load  static %}
 {% block content %}
-    <form action="{% url 'login' %}" method="post" class="content__auth">
+    <form action="{% url 'login' %}" method="post">
         <h2>Вход</h2>
         {% csrf_token %}
         {% if form.errors %}
@@ -13,10 +12,10 @@
             <error>{{message}}</error>
             {% endfor %}
         {% endif %}
-        {% endif %}
+        {% endif %}<br>
         {{ form.username }}<br>
         {{ form.password }}<br>
-        <button class="content__auth-btn" type="submit">Войти</button>
-        <a href="{% url 'register' %}"><p>Нет аккаунта?<span>Зарегистрироваться</span></p></a>
+        <button type="submit">Войти</button>
+        <a href="{% url 'register' %}"><p>Нет аккаунта? <span>Зарегистрироваться</span></p></a>
     </form>
 {% endblock %}

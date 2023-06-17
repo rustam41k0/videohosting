@@ -1,31 +1,18 @@
 {% extends 'base.html' %}
-{% load  static %}
+
 {% block content %}
-    <div class="content__main">
-        {% for video in videos %}
-            <a href='{{ video.get_absolute_url }}'>
-                <div class="content__main-item">
-                    <div class="content__main-item-preview">
-                        <img src="{{ video.image.url }}" alt="preview">
-                    </div>
-                    <div class="content__main-item-overlay">
-                        <h4>{{ video.title }}</h4>
-                        <div class="content__main-item-overlay-additional">
-                            <p>{{ video.username }} <span> x </span> {{ video.get_view_count }}</p>
-                            <svg width="11" height="7" viewBox="0 0 11 7" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.5 6.25001C3.59175 6.25001 1.87762 5.1797 0.860493 3.5C1.87762 1.82031 3.59175 0.75 5.5 0.75C7.40824 0.75 9.12237 1.82031 10.1395 3.5C9.12237 5.1797 7.40824 6.25001 5.5 6.25001Z"
-                                      stroke="white" stroke-width="1.5"/>
-                                <circle cx="5.5" cy="3.5" r="1" fill="white"/>
-                            </svg>
-
-                        </div>
-                    </div>
-                </div>
-            </a>
-        {% endfor %}
-    <a href="{% url 'upload' %}">Загрузить видео</a><br><br>
-    <a href='{% url 'logout' %}'>Выйти</a>
-
+    <div class="videos"
+         style="display: flex; gap: 32px; margin-bottom: 24px; grid-template-columns: 400px repeat(auto-fill, 1fr); flex-wrap: wrap;">
+        {% if videos %}
+            {% for video in videos %}
+                <div><a href='{{ video.get_absolute_url }}' style="text-decoration: none; color: black">
+                    <img src="{{ video.preview.url }}" style="height: 290px; width: 400px" alt="preview">
+                    <h3>{{ video.title }}</h3>
+                    <p>{{ video.author }}</p>
+                </a></div>
+            {% endfor %}
+        {% else %}
+            <h2>Нет ни одного видео!</h2>
+        {% endif %}
     </div>
 {% endblock %}

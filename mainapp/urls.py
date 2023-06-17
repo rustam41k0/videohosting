@@ -1,17 +1,16 @@
 from django.urls import path
-from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 
-from .views import main_page, VideoView, upload, like, dislike, AddComment
+from .views import main_page, VideoView, upload, like, dislike
 
 urlpatterns = [
     path('', main_page, name='home'),
-    path('view/<int:pk>/', VideoView.as_view(), name='view'),
+    path('video/<int:pk>/', VideoView.as_view(), name='video'),
     path('upload/', upload, name='upload'),
-    path('view/<int:pk>/like', like, name='like'),
-    path('view/<int:pk>/dislike', dislike, name='dislike'),
-    path('comment/<int:pk>/', AddComment.as_view(), name='add_comment'),
+    path('video/<int:pk>/like', like, name='like'),
+    path('video/<int:pk>/dislike', dislike, name='dislike'),
+    path('comment/<int:pk>/', VideoView.as_view(), name='add_comment'),
 ]
 
 if settings.DEBUG:

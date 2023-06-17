@@ -18,8 +18,7 @@ def login(request):
                 return HttpResponseRedirect('/')
     else:
         form = UserLoginForm()
-    context = {'form': form}
-    return render(request, 'login.html', context)
+    return render(request, 'login.html', context={'form': form})
 
 
 def register(request):
@@ -27,14 +26,13 @@ def register(request):
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Вы успешно зарегистрировались')
+            messages.success(request, 'Регистрация прошла успешно, теперь вы можете войти')
             return HttpResponseRedirect(reverse('login'))
     else:
         form = UserRegistrationForm()
-    context = {'form': form}
-    return render(request, 'register.html', context)
+    return render(request, 'register.html', context={'form': form})
 
 
 def logout(request):
     auth.logout(request)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(reverse('login'))

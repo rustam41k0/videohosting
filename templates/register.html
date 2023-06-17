@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Registration</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load  static %}
 
-</body>
-</html>
+{% block content %}
+    <form action="{% url 'register' %}" method="post" class="content__auth">
+        <h2>Регистрация</h2>
+        {% csrf_token %}
+        {{ form.email }}<br>
+        {{ form.username }}<br>
+        {{ form.password1 }}<br>
+        {{ form.password2 }}<br>
+        <errors>{{ form.errors }}</errors>
+        <button class="content__auth-btn" type="submit">Создать аккаунт</button>
+        <a href='{% url 'login' %}'><p>Есть аккаунт? <span>Войти</span></p></a>
+    </form>
+{% endblock %}

@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+    <form action="{% url 'upload' %}" method="post" class="content__auth" enctype="multipart/form-data">
+        <h2>Загрузка видео</h2>
+        {% csrf_token %}
+        {{ form.title }}
+        {{ form.description }}
+        <h1>Превью</h1>{{ form.preview }}
+        <h1>Видео</h1>{{ form.video }}
+        <errors>{{ form.errors }}</errors>
+        <button class="content__auth-btn" type="submit">Загрузить</button>
+    </form>
+{% endblock %}

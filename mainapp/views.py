@@ -8,7 +8,7 @@ from mainapp.forms import CommentForm, UploadVideoForm
 from mainapp.models import Video, Comment
 
 
-@login_required(login_url='/users/login')
+@login_required(login_url='/auth/login')
 def main_page(request):
     context = {
         'user': [User],
@@ -21,8 +21,6 @@ class VideoView(View):
     def get(self, request, pk):
         video = Video.objects.get(id=pk)
         user = request.user
-        if user.is_authenticated and user not in video.viewed.all():
-            video.viewed.add(user)
         context = {
             'user': [User],
             # 'usernames': ['kar', 'unclear legacy', 'lender', 'cyreh', 'cyreh', 'cyreh', 'cyreh', 'cyreh'],
@@ -45,15 +43,15 @@ class AddComment(VideoView):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-@login_required(login_url='/users/login')
+@login_required(login_url='/auth/login')
 def upload(request):
     if request.method == 'POST':
         form = UploadVideoForm(request.POST, request.FILES)
         if form.is_valid():
-            video = Video(username=request.user,
+            video = Video(author=request.user,
                           title=request.POST.get('title'),
                           description=request.POST.get('description'),
-                          image=request.FILES['image'],
+                          preview=request.FILES['preview'],
                           file=request.FILES['video']
                           )
 
@@ -66,7 +64,7 @@ def upload(request):
     return render(request, 'upload_video.html', context)
 
 
-@login_required(login_url='/users/login')
+@login_required(login_url='/auth/login')
 def like(request, pk):
     video = Video.objects.get(id=pk)
     if request.user in video.likes.all():
@@ -78,7 +76,7 @@ def like(request, pk):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-@login_required(login_url='/users/login')
+@login_required(login_url='/auth/login')
 def dislike(request, pk):
     video = Video.objects.get(id=pk)
     if request.user in video.dislikes.all():

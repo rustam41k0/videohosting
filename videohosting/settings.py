@@ -21,8 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # S3 Yandex Cloud Storages
 STATIC_URL = 'https://%s/%s/' % (os.getenv('AWS_S3_CUSTOM_DOMAIN'), os.getenv('AWS_LOCATION'))
 MEDIA_URL = 'https://%s/media/' % (os.getenv('AWS_S3_CUSTOM_DOMAIN'))
-STATICFILES_STORAGE = 'cube.storage.MediaStorage'
-DEFAULT_FILE_STORAGE = 'cube.storage.MediaStorage'
+STATICFILES_STORAGE = 'videohosting.storage.MediaStorage'
+DEFAULT_FILE_STORAGE = 'videohosting.storage.MediaStorage'
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
@@ -86,16 +86,29 @@ WSGI_APPLICATION = 'videohosting.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# docker config
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'db',
+#         'PORT': '5432'
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'HOST': '0.0.0.0',
         'PORT': '5432'
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

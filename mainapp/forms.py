@@ -14,7 +14,7 @@ class DislikeForm(forms.Form):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = 'text'
+        fields = ('text',)
 
 
 class UploadVideoForm(forms.Form):
